@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: large-workload
 spec:
-  replicas: 6
+  replicas: 14
   selector:
     matchLabels:
       app: large-workload
@@ -17,7 +17,7 @@ spec:
         image: nginx:latest
         resources:
           requests:
-            cpu: 250m
+            cpu: 500m
             memory: 256Mi
           limits:
             cpu: 1000m

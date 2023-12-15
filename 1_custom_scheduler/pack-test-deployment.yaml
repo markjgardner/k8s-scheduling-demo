@@ -6,22 +6,26 @@ spec:
   replicas: 6
   selector:
     matchLabels:
-      app: scheduler-test-pack
+      app: scheduler-test
   template:
     metadata:
       labels:
-        app: scheduler-test-pack
+        app: scheduler-test
     spec:
       schedulerName: pack-scheduler
+      tolerations:
+      - key: nodepool/scale
+        value: static
+        effect: NoSchedule
       containers:
       - name: nginx
         image: nginx:latest
         resources:
           requests:
             cpu: 100m
-            memory: 64Mi
+            memory: 8Mi
           limits:
             cpu: 500m
             memory: 128Mi
       nodeSelector:
-        kubernetes.azure.com/agentpool: linux
+        kubernetes.azure.com/agentpool: linux2

@@ -1,13 +1,20 @@
-apiVersion: "descheduler/v1alpha2"
-kind: "DeschedulerPolicy"
-profiles:
-  - name: ProfileName
-    pluginConfig:
-    - name: "RemovePodsViolatingNodeAffinity"
-      args:
-        nodeAffinityType:
-        - "requiredDuringSchedulingIgnoredDuringExecution"
-    plugins:
-      deschedule:
-        enabled:
-          - "RemovePodsViolatingNodeAffinity"
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: descheduler
+  namespace: kube-system
+data:
+  policy.yaml: |
+    apiVersion: "descheduler/v1alpha2"
+    kind: "DeschedulerPolicy"
+    profiles:
+      - name: ProfileName
+        pluginConfig:
+        - name: "RemovePodsViolatingNodeAffinity"
+          args:
+            nodeAffinityType:
+            - "preferredDuringSchedulingIgnoredDuringExecution"
+        plugins:
+          deschedule:
+            enabled:
+              - "RemovePodsViolatingNodeAffinity"
