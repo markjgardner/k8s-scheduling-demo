@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: large-workload
+spec:
+  replicas: 6
+  selector:
+    matchLabels:
+      app: large-workload
+  template:
+    metadata:
+      labels:
+        app: large-workload
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+        resources:
+          requests:
+            cpu: 250m
+            memory: 256Mi
+          limits:
+            cpu: 1000m
+            memory: 1Gi
+      nodeSelector: 
+        kubernetes.io/os: linux

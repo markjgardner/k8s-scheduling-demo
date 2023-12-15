@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: critical-workload
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: critical-workload
+  template:
+    metadata:
+      labels:
+        app: critical-workload
+    spec:
+      tolerations:
+      - key: virtual-kubelet.io/provider
+        value: azure
+        effect: NoSchedule
+      containers:
+      - name: nginx
+        image: nginx:latest
+        resources:
+          requests:
+            cpu: 250m
+            memory: 256Mi
+          limits:
+            cpu: 1000m
+            memory: 1Gi
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            preference:
+              matchExpressions:
+              - key: type
+                operator: NotIn
+                values:
+                - virtual-kubelet
